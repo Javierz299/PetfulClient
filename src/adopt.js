@@ -136,6 +136,7 @@ componentDidMount() {
    // this.getDogs();
    // this.setCurrentCat();
    // this.setCurrentDog();
+   // this.getLine();
   }
 
 
