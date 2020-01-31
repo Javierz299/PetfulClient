@@ -4,12 +4,12 @@ import { Link } from 'react-router-dom';
 const landing = () => {
     return (
         <section>
-            <h3>Welcome to Petful Adoption services!</h3>
+            <h3>A Petful animal shelter for cats and dogs</h3>
             <p>
-            See which pets are next in line to be adopted 
+                Click below to find the newest addition to your family today!
             </p>
             <Link to='/adopt'><button >Start adopting!</button></Link>
-            
+
         </section>
     )
 }
