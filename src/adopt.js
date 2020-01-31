@@ -118,6 +118,10 @@ deleteDog = () => {
     .then(e => this.setCurrentDog());
 }
 
+// Function to delete people from line
+
+
+
 //Functions to reset the current pets after
 //the last one was adopted or at first load
 
@@ -130,6 +134,11 @@ setCurrentDog = () => {
     this.setState({
         currentDog: this.state.allDogs[0],
     });
+}
+setCurrentPlace = () => {
+    this.setState({
+        placeInLine: this.state.peopleInLine.length,
+    })
 }
 
 
