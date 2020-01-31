@@ -1,26 +1,20 @@
 import React from 'react';
-import logo from './logo.svg';
 import './App.css';
+import landing from './landing.js';
+import adopt from './adopt.js';
+import { Route } from 'react-router-dom';
 
-function App() {
+class App extends React.Component {
+  render() {
   return (
     <div className="App">
       <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
+        <h1>Petful Adoptions</h1>
+        <Route path='/' component={landing} />
+        <Route path='/adopt' component={adopt} />
       </header>
     </div>
   );
-}
+}}
 
 export default App;
