@@ -3,6 +3,8 @@ import { Link } from 'react-router-dom';
 
 class adopt extends React.Component {
     state = {
+        allCats:[],
+        allDogs:[],
         currentCat: {
             imageURL:'https://assets3.thrillist.com/v1/image/2622128/size/tmg-slideshow_l.jpg', 
             imageDescription: 'Orange bengal cat with black stripes lounging on concrete.',
@@ -22,10 +24,11 @@ class adopt extends React.Component {
             story: 'Owner Passed away'
           },
         placeInLine: 1,
-        peopleInLine: 1,
+        peopleInLine: [],
     }
 
-getCat = () => {
+//Get statement to get LIST of cats
+getCats = () => {
     const URL = ``;
     fetch(URL)
     .then(res => {
@@ -34,9 +37,51 @@ getCat = () => {
       }
       return res.json();
     })
-    .then(cat => {
+    .then(cats => {
       this.setState({
-        currentCat: cat,
+        allCats: cats,
+      });
+    })
+    .catch(err => {
+      this.setState({
+        error: 'Sorry could not find that',
+      });
+    })
+}
+//Get statement to get LIST of dogs
+getDogs = () => {
+    const URL = ``;
+    fetch(URL)
+    .then(res => {
+      if (!res.ok) {
+        throw new Error (res.statusText);
+      }
+      return res.json();
+    })
+    .then(dogs => {
+      this.setState({
+        allDogs: dogs,
+      });
+    })
+    .catch(err => {
+      this.setState({
+        error: 'Sorry could not find that',
+      });
+    })
+}
+//Get Statement to get LIST of people
+getLine = () => {
+    const URL = ``;
+    fetch(URL)
+    .then(res => {
+      if (!res.ok) {
+        throw new Error (res.statusText);
+      }
+      return res.json();
+    })
+    .then(people => {
+      this.setState({
+        peopleInLine: people,
       });
     })
     .catch(err => {
@@ -46,31 +91,55 @@ getCat = () => {
     })
 }
 
-getDog = () => {
+//Delete statements for cats and dogs
+deleteCat = () => {
     const URL = ``;
-    fetch(URL)
-    .then(res => {
-      if (!res.ok) {
-        throw new Error (res.statusText);
-      }
-      return res.json();
+    fetch(URL, {
+        method: 'DELETE',
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify(this.state.currentCat.name)
     })
-    .then(dog => {
-      this.setState({
-        currentDog: dog,
-      });
+    .then(e => this.setCurrentCat());
+}
+deleteDog = () => {
+    const URL = ``;
+    fetch(URL, {
+        method: 'DELETE',
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify(this.state.currentDog.name)
     })
-    .catch(err => {
-      this.setState({
-        error: 'Sorry could not find that',
-      });
+    .then(e => this.setCurrentDog());
+}
+
+//Functions to reset the current pets after
+//the last one was adopted or at first load
+
+setCurrentCat = () => {
+    this.setState({
+        currentCat: this.state.allCats[0],
     })
+}
+setCurrentDog = () => {
+    this.setState({
+        currentDog: this.state.allDogs[0],
+    });
 }
 
 
 
+componentDidMount() {
+   // this.getCats();
+   // this.getDogs();
+   // this.setCurrentCat();
+   // this.setCurrentDog();
+  }
 
-    render(){
+
+render(){
     return (
        <section>
 
