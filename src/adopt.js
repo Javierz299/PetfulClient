@@ -96,7 +96,7 @@ getLine = () => {
 
 //Delete statements for cats and dogs
 deleteCat = () => {
-    const URL = ``;
+    const URL = `${config.API_ENDPOINT}api/cats`;
     fetch(URL, {
         method: 'DELETE',
         headers: {
@@ -107,7 +107,7 @@ deleteCat = () => {
     .then(e => this.setCurrentCat());
 }
 deleteDog = () => {
-    const URL = ``;
+    const URL = `${config.API_ENDPOINT}api/cats`;
     fetch(URL, {
         method: 'DELETE',
         headers: {
