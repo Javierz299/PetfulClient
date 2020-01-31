@@ -1,5 +1,6 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import config from './config';
+
 
 class adopt extends React.Component {
     state = {
@@ -29,7 +30,7 @@ class adopt extends React.Component {
 
 //Get statement to get LIST of cats
 getCats = () => {
-    const URL = ``;
+    const URL = `${config.API_ENDPOINT}api/cats`;
     fetch(URL)
     .then(res => {
       if (!res.ok) {
@@ -42,6 +43,7 @@ getCats = () => {
         allCats: cats,
       });
     })
+    .then(e => {this.setCurrentCat();})
     .catch(err => {
       this.setState({
         error: 'Sorry could not find that',
@@ -50,7 +52,7 @@ getCats = () => {
 }
 //Get statement to get LIST of dogs
 getDogs = () => {
-    const URL = ``;
+    const URL = `${config.API_ENDPOINT}api/dogs`;
     fetch(URL)
     .then(res => {
       if (!res.ok) {
@@ -63,6 +65,7 @@ getDogs = () => {
         allDogs: dogs,
       });
     })
+    .then(e => {this.setCurrentDog();})
     .catch(err => {
       this.setState({
         error: 'Sorry could not find that',
@@ -71,7 +74,7 @@ getDogs = () => {
 }
 //Get Statement to get LIST of people
 getLine = () => {
-    const URL = ``;
+    const URL = `${config.API_ENDPOINT}api/humans`;
     fetch(URL)
     .then(res => {
       if (!res.ok) {
@@ -132,11 +135,9 @@ setCurrentDog = () => {
 
 
 componentDidMount() {
-   // this.getCats();
-   // this.getDogs();
-   // this.setCurrentCat();
-   // this.setCurrentDog();
-   // this.getLine();
+   this.getCats();
+   this.getDogs();
+   this.getLine();
   }
 
 
@@ -151,7 +152,7 @@ render(){
                <li>age: {this.state.currentCat.age}</li>
                <li>breed: {this.state.currentCat.breed} </li>
                <li>story: {this.state.currentCat.story}</li>
-               <button>Adopt me!</button>
+               <button id='adoptCat' onClick={this.deleteCat}>Adopt me!</button>
            </section>
            <section className='petDisplay' id='dogDisplay'>
                <h3>{this.state.currentDog.name}</h3>
@@ -160,15 +161,13 @@ render(){
                <li>age: {this.state.currentDog.age}</li>
                <li>breed: {this.state.currentDog.breed} </li>
                <li>story: {this.state.currentDog.story}</li>
-               <button>Adopt Me!</button>
+               <button id='adoptDog' onClick={this.deleteDog}>Adopt Me!</button>
            </section>
 
            <section className='userLine'>
                <p>You are currently number {this.state.placeInLine} in line.</p>
                <p>Wait until your turn before you can adopt</p>
            </section>
-        
-  
        </section>
     )
 }
