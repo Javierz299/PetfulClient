@@ -97,7 +97,7 @@ getLine = () => {
 //Delete statements for cats and dogs
 deleteCat = () => {
     const URL = `${config.API_ENDPOINT}api/cats`;
-    fetch(URL, {
+    return fetch(URL, {
         method: 'DELETE',
         headers: {
             "Content-Type": "application/json"
