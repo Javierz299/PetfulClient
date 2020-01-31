@@ -102,7 +102,7 @@ deleteCat = () => {
         headers: {
             "Content-Type": "application/json"
         },
-        body: JSON.stringify(this.state.currentCat.name)
+        
     })
     .then(e => this.setCurrentCat());
 }
