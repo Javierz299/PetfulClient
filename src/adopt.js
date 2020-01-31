@@ -22,7 +22,7 @@ class adopt extends React.Component {
             story: 'Owner Passed away'
           },
         placeInLine: 1,
-        peopleInLine: [],
+        peopleInLine: 1,
     }
 
     render(){
@@ -46,6 +46,11 @@ class adopt extends React.Component {
                <li>breed: {this.state.currentDog.breed} </li>
                <li>story: {this.state.currentDog.story}</li>
                <button>Adopt Me!</button>
+           </section>
+
+           <section className='userLine'>
+               <p>You are currently number {this.state.placeInLine} in line.</p>
+               <p>Wait until your turn before you can adopt</p>
            </section>
         
   

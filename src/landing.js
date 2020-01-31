@@ -8,7 +8,8 @@ const landing = () => {
             <p>
             See which pets are next in line to be adopted 
             </p>
-            <button>Start adopting!</button>
+            <Link to='/adopt'><button >Start adopting!</button></Link>
+            
         </section>
     )
 }
