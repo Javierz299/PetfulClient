@@ -25,6 +25,51 @@ class adopt extends React.Component {
         peopleInLine: 1,
     }
 
+getCat = () => {
+    const URL = ``;
+    fetch(URL)
+    .then(res => {
+      if (!res.ok) {
+        throw new Error (res.statusText);
+      }
+      return res.json();
+    })
+    .then(cat => {
+      this.setState({
+        currentCat: cat,
+      });
+    })
+    .catch(err => {
+      this.setState({
+        error: 'Sorry could not find that',
+      });
+    })
+}
+
+getDog = () => {
+    const URL = ``;
+    fetch(URL)
+    .then(res => {
+      if (!res.ok) {
+        throw new Error (res.statusText);
+      }
+      return res.json();
+    })
+    .then(dog => {
+      this.setState({
+        currentDog: dog,
+      });
+    })
+    .catch(err => {
+      this.setState({
+        error: 'Sorry could not find that',
+      });
+    })
+}
+
+
+
+
     render(){
     return (
        <section>
