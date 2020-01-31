@@ -102,20 +102,22 @@ deleteCat = () => {
         headers: {
             "Content-Type": "application/json"
         },
-        
     })
-    .then(e => this.setCurrentCat());
+    .then( data => {this.setState({
+        currentCat: this.state.allCats[0],
+    })});
 }
 deleteDog = () => {
-    const URL = `${config.API_ENDPOINT}api/cats`;
-    fetch(URL, {
+    const URL = `${config.API_ENDPOINT}api/dogs`;
+    return fetch(URL, {
         method: 'DELETE',
         headers: {
             "Content-Type": "application/json"
         },
-        body: JSON.stringify(this.state.currentDog.name)
     })
-    .then(e => this.setCurrentDog());
+    .then( data => {this.setState({
+        currentDog: this.state.allDogs[0],
+    })});
 }
 
 // Function to delete people from line
