@@ -1,15 +1,20 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import dogcat from './assets/pawprint.jpg';
 
 const landing = () => {
     return (
         <section>
-            <h3>A Petful animal shelter for cats and dogs</h3>
+            <h2> @@ @@ @@ </h2>
+            <h3>A Petful animal shelter for cats and dogs!</h3>
             <p>
-                Click below to find the newest addition to your family today!
+                Click below to join the queue and find the newest addition to your family today!
             </p>
-            <Link to='/adopt'><button >Start adopting!</button></Link>
-
+            <div id='buttonContainer'>
+                <Link
+                    id='startButton'
+                    to='/adopt'>Start adopting!</Link>
+            </div>
         </section>
     )
 }

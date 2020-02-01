@@ -1,9 +1,14 @@
 {
-    "version": 2,
-    "alias": "pawsibilities",
-    "name": "pawsibilities",
-    "routes": [
-      { "handle": "filesystem" },
-      { "src": "/.*", "dest": "/index.html" }
+  "version": 2,
+  "alias": "pawsibilities-app",
+  "name": "pawsibilities",
+  "routes": [
+    {
+      "handle": "filesystem"
+    },
+    {
+      "src": "/.*",
+      "dest": "/index.html"
+    }
   ]
 }

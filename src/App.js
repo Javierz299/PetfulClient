@@ -7,9 +7,9 @@ import { Route } from 'react-router-dom';
 class App extends React.Component {
   render() {
     return (
-      <div className="App">
-        <header className="App-header">
-          <h1>Pawsibilities</h1>
+      <div className='app'>
+        <header className='appHeader'>
+          <h1>PAWSIBILITIES</h1>
           <Route exact path='/' component={landing} />
           <Route path='/adopt' component={adopt} />
         </header>
