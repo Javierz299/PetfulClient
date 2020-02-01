@@ -8,7 +8,7 @@ export default class Adopt extends React.Component {
     allDogs: [],
     currentCat: {},
     currentDog: {},
-    placeInLine: '',
+    placeInLine: 1,
     peopleInLine: [],
   }
 
@@ -16,7 +16,6 @@ export default class Adopt extends React.Component {
     this.getCats();
     this.getDogs();
     this.getLine();
-    this.postUser();
   }
 
   //Get statement to get LIST of cats
@@ -104,18 +103,21 @@ export default class Adopt extends React.Component {
   //     })
   // }
 
-  postUser = () => {
+  handleSubmit = (e) => {
+    e.preventDefault();
+    const { name } = e.target;
+    console.log('name is', name);
     const URL = `${config.REACT_APP_API_ENDPOINT}api/humans`;
     return fetch(URL, {
       method: 'POST',
       headers: {
         "Content-Type": "application/json"
       },
-      body: JSON.stringify({ 'name': 'You' })
+      body: JSON.stringify({ name: name.value })
     })
-    // .then(() => {
-    //   return this.getLine();
-    // });
+      .then((res) => {
+        return this.getLine();
+      });
   }
 
   //Delete statements for cats and dogs
@@ -174,7 +176,15 @@ export default class Adopt extends React.Component {
       placeInLine: position
     })
   }
+  // <img src={this.state.currentDog.imageURL} className="petPicture" alt={this.state.currentCat.imageDescription}></img>
+  //  <img src={this.state.currentDog.imageURL} className="petPicture" alt={this.state.currentCat.imageDescription}></img>
 
+  autoChoosePet = () => {
+    let randomNames = ['Robot the dog', 'Squirrel the cat', 'Bowser the dog', 'Simba the cat', 'Snickers the cat', 'Spider the cat', 'Mortimer the dog', 'Squeeze the dog', 'Sunny the cat', 'Nero the dog', 'Zero the dog'];
+    let randomName = randomNames[Math.floor(Math.random() * randomNames.length)];
+    console.log('randomname is', randomName)
+    return `${randomName}`;
+  }
 
   render() {
     return (
@@ -182,23 +192,42 @@ export default class Adopt extends React.Component {
         <div id='petContainers'>
           <section className='petDisplay' id='catDisplay'>
             <h3>{this.state.currentCat.name}</h3>
-            <img src={this.state.currentCat.imageURL} className="petPicture"></img>
+            <img src={'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSiCzlHLJKr26CEObJqwo8Tv4uWIurtQV7ox_CJytmjr35zvmQS2g&s'} className="petPicture" alt={this.state.currentCat.imageDescription}></img>
             <li>sex: {this.state.currentCat.sex} </li>
             <li>age: {this.state.currentCat.age}</li>
             <li>breed: {this.state.currentCat.breed} </li>
             <li>story: {this.state.currentCat.story}</li>
-            <button id='adoptCat' onClick={this.deleteCat}>Adopt me!</button>
+            {this.state.placeInLine === 1 && <button id='adoptCat' onClick={this.deleteCat} >Adopt me!</button>}
           </section>
           <section className='petDisplay' id='dogDisplay'>
             <h3>{this.state.currentDog.name}</h3>
-            <img src={this.state.currentDog.imageURL} className="petPicture"></img>
+            <img src={'https://www.publicdomainpictures.net/pictures/160000/nahled/maine-coon-cat.jpg'} className="petPicture" alt={this.state.currentCat.imageDescription}></img>
             <li>sex: {this.state.currentDog.sex} </li>
             <li>age: {this.state.currentDog.age}</li>
             <li>breed: {this.state.currentDog.breed} </li>
             <li>story: {this.state.currentDog.story}</li>
-            <button id='adoptDog' onClick={this.deleteDog}>Adopt Me!</button>
+            {this.state.placeInLine === 1 && <button id='adoptDog' onClick={this.deleteDog} >Adopt Me!</button>}
           </section>
         </div>
+        <section id='getInLineFormContainer'>
+          <form id='getInLine'
+            onSubmit={this.handleSubmit}>
+            <label htmlFor='lineUp'>
+              Enter your name to get in line <br />
+            </label>
+            <input
+              type='text'
+              name='name'
+              id='lineUpInput'
+              placeholder='first name'>
+            </input>
+            <button
+              type='submit'
+              id='lineUpButton'>
+              Line up!
+            </button>
+          </form>
+        </section>
 
         <section className='userLine'>
           <p>You are currently number <span id='yellow'>{this.state.placeInLine}</span> in line.</p>
@@ -210,6 +239,9 @@ export default class Adopt extends React.Component {
               })
             }
           </p>
+          <p id='adoptionPairs'>Recent adoptions:</p>
+          <p>{this.state.peopleInLine[0]} took {this.autoChoosePet()} home.</p>
+
         </section>
       </section >
     )
