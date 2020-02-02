@@ -68,7 +68,7 @@ export default class Adopt extends React.Component {
   getLine = () => {
     console.log('getLine reached');
     const events = new EventSource(`${config.REACT_APP_API_ENDPOINT}api/updateEvent`);
-    events.addEventListener('message', (event) => {
+    events.onmessage = (event) => {
       console.log('message', event.data);
       const people = JSON.parse(event.data);
       console.log('people is', people);
@@ -76,7 +76,7 @@ export default class Adopt extends React.Component {
         peopleInLine: people.humans,
         myTurn: people.isItYourTurn
       });
-    })
+    }
     events.addEventListener('open', (e) => {
       console.log('eventsource opened', e);
       console.log('eventsource opened data', e.data);
@@ -216,9 +216,6 @@ export default class Adopt extends React.Component {
     return adoptionPairs;
   }
 
-  // <img src={this.state.currentDog.imageURL} className="petPicture" alt={this.state.currentCat.imageDescription}></img>
-  //  <img src={this.state.currentDog.imageURL} className="petPicture" alt={this.state.currentCat.imageDescription}></img>
-
   autoChoosePet = () => {
     let randomNames = ['Robot the dog', 'Squirrel the cat', 'Bowser the dog', 'Simba the cat', 'Snickers the cat', 'Spider the cat', 'Mortimer the dog', 'Squeeze the dog', 'Sunny the cat', 'Nero the dog', 'Zero the dog'];
     let randomName = randomNames[Math.floor(Math.random() * randomNames.length)];
@@ -235,9 +232,23 @@ export default class Adopt extends React.Component {
         <li>age: {this.state.currentDog.age}</li>
         <li>breed: {this.state.currentDog.breed} </li>
         <li>story: {this.state.currentDog.story}</li>
-      </div>
+      </div>;
     }
-    return <div>Loading!</div>;
+    return <div>All dogs have been adopted!</div>;
+  }
+
+  getCurrentCat() {
+    if (this.state.currentCat) {
+      return <div>
+        <h3>{this.state.currentCat.name}</h3>
+        <img src={this.state.currentCat.imageURL} className="petPicture" alt={this.state.currentCat.imageDescription}></img>
+        <li>sex: {this.state.currentCat.sex} </li>
+        <li>age: {this.state.currentCat.age}</li>
+        <li>breed: {this.state.currentCat.breed} </li>
+        <li>story: {this.state.currentCat.story}</li>
+      </div>;
+    }
+    return <div>All cats have been adopted!</div>;
   }
 
   render() {
@@ -246,12 +257,7 @@ export default class Adopt extends React.Component {
       <section id='adoptContainer'>
         <div id='petContainers'>
           <section className='petDisplay' id='catDisplay'>
-            <h3>{this.state.currentCat.name}</h3>
-            <img src={this.state.currentCat.imageURL} className="petPicture" alt={this.state.currentCat.imageDescription}></img>
-            <li>sex: {this.state.currentCat.sex} </li>
-            <li>age: {this.state.currentCat.age}</li>
-            <li>breed: {this.state.currentCat.breed} </li>
-            <li>story: {this.state.currentCat.story}</li>
+            {this.getCurrentCat()}
             {this.state.myTurn === true && <button id='adoptCat' onClick={this.deleteCat} >Adopt me!</button>}
           </section>
           <section className='petDisplay' id='dogDisplay'>
