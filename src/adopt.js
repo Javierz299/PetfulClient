@@ -9,8 +9,9 @@ export default class Adopt extends React.Component {
     currentCat: {},
     currentDog: {},
     peopleInLine: [],
-    adoptionsPets: [],
-    adoptersHumans: [],
+    adoptionsPets: {},
+    adoptersHumans: '',
+    adoptionPairs: [],
     myTurn: false
   }
 
@@ -66,16 +67,27 @@ export default class Adopt extends React.Component {
 
   //Get Statement to get LIST of people
   getLine = () => {
-    console.log('getLine reached');
+    console.log('this.state.adoptionpets', this.state.adoptionsPets)
     const events = new EventSource(`${config.REACT_APP_API_ENDPOINT}api/updateEvent`);
     events.onmessage = (event) => {
-      console.log('message', event.data);
       const people = JSON.parse(event.data);
-      console.log('people is', people);
-      this.setState({
-        peopleInLine: people.humans,
-        myTurn: people.isItYourTurn
-      });
+      if (people.isItYourTurn) {
+        events.close();
+      }
+      console.log('people.adoptedPet is', people)
+      // setInterval(() => {
+      //   this.deleteDog();
+
+      // }, 8000);
+      if (people) {
+        this.setState({
+          peopleInLine: people.humans,
+          myTurn: people.isItYourTurn,
+          adoptersHumans: people.currentAdopter,
+          adoptionsPets: people.adoptedPet,
+          currentDog: people.adoptedPet
+        });
+      }
     }
     events.addEventListener('open', (e) => {
       console.log('eventsource opened', e);
@@ -86,27 +98,6 @@ export default class Adopt extends React.Component {
       console.log('eventsource opened error', e.data);
     };
   }
-
-  // getLine = () => {
-  //   const URL = `${config.REACT_APP_API_ENDPOINT}api/humans`;
-  //   fetch(URL)
-  //     .then(res => {
-  //       if (!res.ok) {
-  //         throw new Error(res.statusText);
-  //       }
-  //       return res.json();
-  //     })
-  //     .then(people => {
-  //       console.log('people is', people);
-  //       this.setState({
-  //         peopleInLine: people,
-  //       });
-  //     })
-  //     .catch(err => {
-  //       console.error(err);
-  //       throw err;
-  //     })
-  // }
 
   // enqueue the user into adoption line 
   handleSubmit = (e) => {
@@ -147,7 +138,9 @@ export default class Adopt extends React.Component {
       .then((res) => res.json())
       .then((adoptedPetInfo) => {
         this.setState({
-          adoptionsPets: [...this.state.adoptionsPets, adoptedPetInfo.name]
+          // adoptionsPets: [...this.state.adoptionsPets, adoptedPetInfo.name]
+          adoptionsPets: adoptedPetInfo.name,
+          myTurn: false
         });
         this.deleteHuman();
         return this.getCats();
@@ -165,7 +158,9 @@ export default class Adopt extends React.Component {
       .then((res) => res.json())
       .then((adoptedPetInfo) => {
         this.setState({
-          adoptionsPets: [...this.state.adoptionsPets, adoptedPetInfo.name]
+          // adoptionsPets: [...this.state.adoptionsPets, adoptedPetInfo.name]
+          adoptionsPets: adoptedPetInfo.name,
+          myTurn: false
         });
         this.deleteHuman();
         return this.getDogs();
@@ -192,8 +187,8 @@ export default class Adopt extends React.Component {
 
 
 
-  //Functions to reset the current pets after
-  //the last one was adopted or at first load
+  // Functions to reset the current pets after
+  // the last one was adopted or at first load
 
 
   setCurrentCat = () => {
@@ -206,24 +201,23 @@ export default class Adopt extends React.Component {
     this.setState({
       currentDog: this.state.allDogs[0],
     });
+    // this.showAdoptions();
   }
 
-  showAdoptions = () => {
-    let adoptionPairs = [];
-    for (let i = 0; i < this.state.adoptionsPets.length; i++) {
-      adoptionPairs.push(<p>{this.state.adoptersHumans[i]} took {this.state.adoptionsPets[i]} home.</p>)
-    }
-    return adoptionPairs;
-  }
+  // showAdoptions = () => {
+  //   if (this.state.adoptionsPets) {
+  //     let adoptionPairs = [];
+  //     for (let i = 0; i < this.state.adoptionsPets.length; i++) {
+  //       adoptionPairs.push(<p>{this.state.adoptersHumans[i]} took {this.state.adoptionsPets[i]} home.</p>)
+  //     }
+  //     console.log('adoptionpairs is', this.state.adoptionPairs);
 
-  autoChoosePet = () => {
-    let randomNames = ['Robot the dog', 'Squirrel the cat', 'Bowser the dog', 'Simba the cat', 'Snickers the cat', 'Spider the cat', 'Mortimer the dog', 'Squeeze the dog', 'Sunny the cat', 'Nero the dog', 'Zero the dog'];
-    let randomName = randomNames[Math.floor(Math.random() * randomNames.length)];
-    console.log('randomname is', randomName)
-    return `${randomName}`;
-  }
+  //     return this.state.adoptionPairs;
+  //   }
+  // }
 
   getCurrentDog() {
+    console.log('current dog is', this.state.currentDog);
     if (this.state.currentDog) {
       return <div>
         <h3>{this.state.currentDog.name}</h3>
@@ -252,7 +246,7 @@ export default class Adopt extends React.Component {
   }
 
   render() {
-    console.log('this state people in line', this.state.peopleInLine)
+    console.log('this state adoption pets', this.state.adoptionsPets)
     return (
       <section id='adoptContainer'>
         <div id='petContainers'>
@@ -296,7 +290,7 @@ export default class Adopt extends React.Component {
           }
 
           <p id='adoptionPairs'>Recent adoptions:</p>
-          {this.showAdoptions()}
+          {this.state.adoptionsPets && <p>{this.state.adoptersHumans} took {this.state.adoptionsPets.name} home.</p>}
 
         </section>
       </section >
