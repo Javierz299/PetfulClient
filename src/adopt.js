@@ -68,12 +68,12 @@ export default class Adopt extends React.Component {
   //Get Statement to get LIST of people
   getLine = () => {
     console.log('this.state.adoptionpets', this.state.adoptionsPets)
-    const events = new EventSource(`${config.REACT_APP_API_ENDPOINT}api/updateEvent`);
-    events.onmessage = (event) => {
+    if (this.events) {
+      this.events.close();
+    }
+    this.events = new EventSource(`${config.REACT_APP_API_ENDPOINT}api/updateEvent`);
+    this.events.onmessage = (event) => {
       const people = JSON.parse(event.data);
-      if (people.isItYourTurn) {
-        events.close();
-      }
       console.log('people.adoptedPet is', people)
       // setInterval(() => {
       //   this.deleteDog();
@@ -85,15 +85,16 @@ export default class Adopt extends React.Component {
           myTurn: people.isItYourTurn,
           adoptersHumans: people.currentAdopter,
           adoptionsPets: people.adoptedPet,
-          currentDog: people.adoptedPet
+          currentCat: people.currentCat,
+          currentDog: people.currentDog
         });
       }
     }
-    events.addEventListener('open', (e) => {
+    this.events.addEventListener('open', (e) => {
       console.log('eventsource opened', e);
       console.log('eventsource opened data', e.data);
     })
-    events.onerror = (e) => {
+    this.events.onerror = (e) => {
       console.log('eventsource error', e)
       console.log('eventsource opened error', e.data);
     };
@@ -139,10 +140,10 @@ export default class Adopt extends React.Component {
       .then((adoptedPetInfo) => {
         this.setState({
           // adoptionsPets: [...this.state.adoptionsPets, adoptedPetInfo.name]
-          adoptionsPets: adoptedPetInfo.name,
+          adoptionsPets: adoptedPetInfo,
           myTurn: false
         });
-        this.deleteHuman();
+        // this.deleteHuman();
         return this.getCats();
       });
   }
@@ -159,30 +160,30 @@ export default class Adopt extends React.Component {
       .then((adoptedPetInfo) => {
         this.setState({
           // adoptionsPets: [...this.state.adoptionsPets, adoptedPetInfo.name]
-          adoptionsPets: adoptedPetInfo.name,
+          adoptionsPets: adoptedPetInfo,
           myTurn: false
         });
-        this.deleteHuman();
+        // this.deleteHuman();
         return this.getDogs();
       });
   }
 
-  deleteHuman = () => {
-    const URL = `${config.REACT_APP_API_ENDPOINT}api/humans`;
-    return fetch(URL, {
-      method: 'DELETE',
-      headers: {
-        "Content-Type": "application/json"
-      },
-    })
-      .then((res) => res.json())
-      .then((adopter) => {
-        this.setState({
-          adoptersHumans: [...this.state.adoptersHumans, adopter.name]
-        });
-        return this.getCats();
-      });
-  }
+  // deleteHuman = () => {
+  //   const URL = `${config.REACT_APP_API_ENDPOINT}api/humans`;
+  //   return fetch(URL, {
+  //     method: 'DELETE',
+  //     headers: {
+  //       "Content-Type": "application/json"
+  //     },
+  //   })
+  //     .then((res) => res.json())
+  //     .then((adopter) => {
+  //       this.setState({
+  //         adoptersHumans: adopter.name
+  //       });
+  //       return this.getCats();
+  //     });
+  // }
   // Function to delete people from line
 
 
