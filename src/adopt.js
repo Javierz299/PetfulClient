@@ -53,6 +53,7 @@ export default class Adopt extends React.Component {
         return res.json();
       })
       .then(dogs => {
+        console.log("server gave us all dogs:", dogs)
         this.setState({
           allDogs: dogs,
         });
@@ -66,13 +67,18 @@ export default class Adopt extends React.Component {
 
   //Get Statement to get LIST of people
   getLine = () => {
+    console.log('this.state.adoptionpets', this.state.adoptionsPets)
     if (this.events) {
       this.events.close();
     }
     this.events = new EventSource(`${config.REACT_APP_API_ENDPOINT}api/updateEvent`);
     this.events.onmessage = (event) => {
       const people = JSON.parse(event.data);
+      console.log('people.adoptedPet is', people)
+      // setInterval(() => {
+      //   this.deleteDog();
 
+      // }, 8000);
       if (people) {
         this.setState({
           peopleInLine: people.humans,
@@ -99,6 +105,7 @@ export default class Adopt extends React.Component {
     e.preventDefault();
     const { name } = e.target;
 
+    console.log('name is', name.value);
     const URL = `${config.REACT_APP_API_ENDPOINT}api/humans`;
     return fetch(URL, {
       method: 'POST',
@@ -112,6 +119,7 @@ export default class Adopt extends React.Component {
     })
       .then(res => res.json())
       .then((list) => {
+        console.log('list is', list);
         this.setState({
           peopleInLine: list
         })
@@ -131,9 +139,11 @@ export default class Adopt extends React.Component {
       .then((res) => res.json())
       .then((adoptedPetInfo) => {
         this.setState({
+          // adoptionsPets: [...this.state.adoptionsPets, adoptedPetInfo.name]
           adoptionsPets: adoptedPetInfo,
           myTurn: false
         });
+        // this.deleteHuman();
         return this.getCats();
       });
   }
@@ -149,12 +159,34 @@ export default class Adopt extends React.Component {
       .then((res) => res.json())
       .then((adoptedPetInfo) => {
         this.setState({
+          // adoptionsPets: [...this.state.adoptionsPets, adoptedPetInfo.name]
           adoptionsPets: adoptedPetInfo,
           myTurn: false
         });
+        // this.deleteHuman();
         return this.getDogs();
       });
   }
+
+  // deleteHuman = () => {
+  //   const URL = `${config.REACT_APP_API_ENDPOINT}api/humans`;
+  //   return fetch(URL, {
+  //     method: 'DELETE',
+  //     headers: {
+  //       "Content-Type": "application/json"
+  //     },
+  //   })
+  //     .then((res) => res.json())
+  //     .then((adopter) => {
+  //       this.setState({
+  //         adoptersHumans: adopter.name
+  //       });
+  //       return this.getCats();
+  //     });
+  // }
+  // Function to delete people from line
+
+
 
   // Functions to reset the current pets after
   // the last one was adopted or at first load
@@ -166,22 +198,35 @@ export default class Adopt extends React.Component {
     })
   }
   setCurrentDog = () => {
+    console.log("setting current dog: ", this.state.allDogs[0]);
     this.setState({
       currentDog: this.state.allDogs[0],
     });
+    // this.showAdoptions();
   }
 
+  // showAdoptions = () => {
+  //   if (this.state.adoptionsPets) {
+  //     let adoptionPairs = [];
+  //     for (let i = 0; i < this.state.adoptionsPets.length; i++) {
+  //       adoptionPairs.push(<p>{this.state.adoptersHumans[i]} took {this.state.adoptionsPets[i]} home.</p>)
+  //     }
+  //     console.log('adoptionpairs is', this.state.adoptionPairs);
+
+  //     return this.state.adoptionPairs;
+  //   }
+  // }
+
   getCurrentDog() {
+    console.log('current dog is', this.state.currentDog);
     if (this.state.currentDog) {
       return <div>
         <h3>{this.state.currentDog.name}</h3>
         <img src={this.state.currentDog.imageURL} className="petPicture" alt={this.state.currentDog.imageDescription}></img>
-        <ul>
         <li>sex: {this.state.currentDog.sex} </li>
         <li>age: {this.state.currentDog.age}</li>
         <li>breed: {this.state.currentDog.breed} </li>
         <li>story: {this.state.currentDog.story}</li>
-        </ul>
       </div>;
     }
     return <div>All dogs have been adopted!</div>;
@@ -192,18 +237,17 @@ export default class Adopt extends React.Component {
       return <div>
         <h3>{this.state.currentCat.name}</h3>
         <img src={this.state.currentCat.imageURL} className="petPicture" alt={this.state.currentCat.imageDescription}></img>
-        <ul>
         <li>sex: {this.state.currentCat.sex} </li>
         <li>age: {this.state.currentCat.age}</li>
         <li>breed: {this.state.currentCat.breed} </li>
         <li>story: {this.state.currentCat.story}</li>
-        </ul>
       </div>;
     }
     return <div>All cats have been adopted!</div>;
   }
 
   render() {
+    console.log('this state adoption pets', this.state.adoptionsPets)
     return (
       <section id='adoptContainer'>
         <div id='petContainers'>
@@ -241,6 +285,7 @@ export default class Adopt extends React.Component {
           {(this.state.peopleInLine.length === 0) && <p>no one is in line</p>}
           {
             this.state.peopleInLine.map((person) => {
+              console.log('person is', person);
               return <p>{person}</p>;
             })
           }
