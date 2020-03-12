@@ -289,10 +289,10 @@ export default class Adopt extends React.Component {
               return <p>{person}</p>;
             })
           }
-
+          <div>
           <p id='adoptionPairs'>Recent adoptions:</p>
           {this.state.adoptionsPets && <p>{this.state.adoptersHumans} took {this.state.adoptionsPets.name} home.</p>}
-
+          </div>
         </section>
       </section >
     )

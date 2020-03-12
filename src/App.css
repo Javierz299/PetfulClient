@@ -1,17 +1,17 @@
-@font-face {
-  font-family: 'austie_bost_kitten_klubRg';
-  src: url('./assets/webfontkit-20200201-020108/austiebostkittenklub-webfont.woff2') format('woff2'),
+/* @font-face {
+  /* font-family: 'austie_bost_kitten_klubRg'; */
+  /* src: url('./assets/webfontkit-20200201-020108/austiebostkittenklub-webfont.woff2') format('woff2'),
        url('./assets/webfontkit-20200201-020108/austiebostkittenklub-webfont.woff') format('woff');
   font-weight: normal;
   font-style: normal;
-}
-@font-face {
+} */
+/* @font-face {
   font-family: 'ennobled_petregular';
   src: url('./assets/webfontkit-20200201-035319/ennobled-webfont.woff2') format('woff2'),
        url('./assets/webfontkit-20200201-035319/ennobled-webfont.woff') format('woff');
   font-weight: normal;
   font-style: normal;
-}
+} */ 
 
 
 * {
@@ -21,7 +21,7 @@
 h2 {
   font-family: 'ennobled_petregular';
   font-size: 70px;
-  color: #ffff9f;
+  color: whitesmoke;
   margin-top: 1px;
   margin-bottom: 30px;
   text-align: center;
@@ -34,7 +34,7 @@ h2 {
 
 h1 {
   font-family:'austie_bost_kitten_klubRg';
-  color: #ffff9f;
+  color: whitesmoke;
   font-size: 40px;
   padding: 10px;
   margin-left: 5px;
@@ -76,7 +76,7 @@ input[type='text'] {
   margin-right: auto;
   color: black;
   font-size: 16px;
-  border: 1px dashed #ffff9f;
+  border: 1px solid whitesmoke;
   background-color: ghostwhite;
   border-radius: 2px;
   text-decoration: none;
@@ -129,7 +129,7 @@ button {
 }
 
 #dogDisplay {
-  border: 3px dashed #ffff9f;
+  border: 3px solid whitesmoke;
   padding: 5px;
   margin: 5px;
 }
@@ -155,7 +155,7 @@ li {
 
 .userLine {
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   align-items: center;
 }
 
@@ -176,13 +176,13 @@ li {
   }
 
   #catDisplay {
-    border: 3px dashed #ffff9f;
+    border: 3px solid whitesmoke;
     padding: 5px;
     margin: 20px;
   }
 
   #dogDisplay {
-    border: 3px dashed #ffff9f;
+    border: 3px solid whitesmoke;
     padding: 5px;
     margin: 20px;
   }

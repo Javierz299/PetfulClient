@@ -9,7 +9,7 @@ class App extends React.Component {
     return (
       <div className='app'>
         <header className='appHeader'>
-          <h1>PAWSIBILITIES</h1>
+          <h1>Petful Adoption</h1>
           <Route exact path='/' component={landing} />
           <Route path='/adopt' component={adopt} />
         </header>

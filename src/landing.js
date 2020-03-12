@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 const landing = () => {
     return (
         <section>
-            <h2> @@ @@ @@ </h2>
+            
             <h3>A Petful animal shelter for cats and dogs!</h3>
             <div id='buttonContainer'>
                 <Link
