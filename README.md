@@ -10,7 +10,7 @@ Petful operates on a first-in, first-out basis. Given a queue of dogs and a queu
 
 [Petful Live App](https://y-chi.now.sh/)
 
-[Petful client (Github)](https://github.com/Javierz299/petful-client)
+[Petful server (Github)](https://github.com/Javierz299/PetfulServer)
 
 ## Technology Used
 
