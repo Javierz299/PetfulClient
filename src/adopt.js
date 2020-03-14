@@ -286,14 +286,14 @@ export default class Adopt extends React.Component {
           {
             this.state.peopleInLine.map((person) => {
               console.log('person is', person);
-              return <p>{person}</p>;
+              return <p className="personBox">{person + ' '}</p>;
             })
           }
-          <div>
+        </section>
+        <div>
           <p id='adoptionPairs'>Recent adoptions:</p>
           {this.state.adoptionsPets && <p>{this.state.adoptersHumans} took {this.state.adoptionsPets.name} home.</p>}
           </div>
-        </section>
       </section >
     )
   }
